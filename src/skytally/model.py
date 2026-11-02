@@ -42,8 +42,8 @@ class ModelConfig:
 def separable(channels: int) -> nn.Sequential:
     """Depthwise then pointwise convolution, without normalisation or activation.
 
-    Stride 4 multiplies the point count by 16 over stride 16, so a standard 3x3 head on P2
-    would cost more than the backbone. Separable blocks keep it to about a tenth of that.
+    Stride 4 has 16 times the points of stride 16, so the head's cost is dominated by P2.
+    At 96 channels a separable layer takes about an eighth of the multiplies of a 3x3 one.
     """
     return nn.Sequential(
         nn.Conv2d(channels, channels, 3, padding=1, groups=channels, bias=False),

@@ -1,0 +1,419 @@
+{
+  "label": "simulator measurement: rendered synthetic scenes, trained VisDrone detector",
+  "scene": {
+    "width": 1280,
+    "height": 720,
+    "fps": 10.0,
+    "seconds": 60.0,
+    "road_angle_deg": -12.0,
+    "lanes_per_direction": 2,
+    "lane_width": 22.0,
+    "median_width": 14.0,
+    "arrivals_per_minute": 40.0,
+    "speed_px_per_s": [
+      60.0,
+      110.0
+    ],
+    "size_scale": 1.0,
+    "occluder": null,
+    "camera_jitter_px": 0.6,
+    "line_position": 0.5,
+    "warmup_seconds": 8.0
+  },
+  "calibration_seeds": [
+    50,
+    51
+  ],
+  "evaluation_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "calibration": {
+    "best_high_score": 0.25,
+    "grid": [
+      {
+        "high_score": 0.1,
+        "true_crossings": 70,
+        "pipeline_crossings": 238,
+        "count_absolute_error": 168,
+        "count_error_percent": 240.0,
+        "mota_mean": -3.6873809968429225,
+        "idf1_mean": 0.22225830136832192,
+        "id_switches_mean": 205.0
+      },
+      {
+        "high_score": 0.15,
+        "true_crossings": 70,
+        "pipeline_crossings": 107,
+        "count_absolute_error": 37,
+        "count_error_percent": 52.857142857142854,
+        "mota_mean": -0.5387384089728702,
+        "idf1_mean": 0.4756680903788779,
+        "id_switches_mean": 59.5
+      },
+      {
+        "high_score": 0.2,
+        "true_crossings": 70,
+        "pipeline_crossings": 75,
+        "count_absolute_error": 5,
+        "count_error_percent": 7.142857142857143,
+        "mota_mean": 0.3962061962756987,
+        "idf1_mean": 0.7123076543525124,
+        "id_switches_mean": 21.5
+      },
+      {
+        "high_score": 0.25,
+        "true_crossings": 70,
+        "pipeline_crossings": 63,
+        "count_absolute_error": 7,
+        "count_error_percent": 10.0,
+        "mota_mean": 0.7479819066181921,
+        "idf1_mean": 0.8044936985215272,
+        "id_switches_mean": 16.0
+      },
+      {
+        "high_score": 0.3,
+        "true_crossings": 70,
+        "pipeline_crossings": 52,
+        "count_absolute_error": 18,
+        "count_error_percent": 25.714285714285715,
+        "mota_mean": 0.6592073750736749,
+        "idf1_mean": 0.7551752976269266,
+        "id_switches_mean": 6.5
+      },
+      {
+        "high_score": 0.35,
+        "true_crossings": 70,
+        "pipeline_crossings": 44,
+        "count_absolute_error": 26,
+        "count_error_percent": 37.142857142857146,
+        "mota_mean": 0.5392733177327397,
+        "idf1_mean": 0.6581167702642202,
+        "id_switches_mean": 14.0
+      },
+      {
+        "high_score": 0.4,
+        "true_crossings": 70,
+        "pipeline_crossings": 32,
+        "count_absolute_error": 38,
+        "count_error_percent": 54.285714285714285,
+        "mota_mean": 0.40263512409474733,
+        "idf1_mean": 0.5259774926495908,
+        "id_switches_mean": 4.5
+      },
+      {
+        "high_score": 0.45,
+        "true_crossings": 70,
+        "pipeline_crossings": 25,
+        "count_absolute_error": 45,
+        "count_error_percent": 64.28571428571429,
+        "mota_mean": 0.2576235549512433,
+        "idf1_mean": 0.4034954907147751,
+        "id_switches_mean": 1.0
+      },
+      {
+        "high_score": 0.5,
+        "true_crossings": 70,
+        "pipeline_crossings": 9,
+        "count_absolute_error": 61,
+        "count_error_percent": 87.14285714285714,
+        "mota_mean": 0.10450862506638031,
+        "idf1_mean": 0.18041436396412533,
+        "id_switches_mean": 0.0
+      },
+      {
+        "high_score": 0.55,
+        "true_crossings": 70,
+        "pipeline_crossings": 2,
+        "count_absolute_error": 68,
+        "count_error_percent": 97.14285714285714,
+        "mota_mean": 0.023921326906355567,
+        "idf1_mean": 0.04653695567530051,
+        "id_switches_mean": 0.0
+      },
+      {
+        "high_score": 0.6,
+        "true_crossings": 70,
+        "pipeline_crossings": 0,
+        "count_absolute_error": 70,
+        "count_error_percent": 100.0,
+        "mota_mean": 0.0,
+        "idf1_mean": 0.0,
+        "id_switches_mean": 0.0
+      }
+    ]
+  },
+  "recall_by_lane_on_calibration_clips": {
+    "leftward_inner": 0.7315945856718389,
+    "leftward_outer": 0.6610594130279169,
+    "rightward_inner": 0.7466547725245317,
+    "rightward_outer": 0.5247720967102656
+  },
+  "detect_ms_per_frame": 106.75688450331897,
+  "calibrated_tracker": {
+    "high_score": 0.25,
+    "low_score": 0.1,
+    "new_track_score": 0.3
+  },
+  "visdrone_thresholds": {
+    "true_crossings": 147,
+    "pipeline_crossings": 72,
+    "count_absolute_error": 75,
+    "count_error_percent": 51.02040816326531,
+    "mota_mean": 0.3796287194142283,
+    "idf1_mean": 0.5395793053579089,
+    "id_switches_mean": 0.8,
+    "runs": [
+      {
+        "seed": 0,
+        "mota": 0.39334548769371014,
+        "idf1": 0.5636750040869707,
+        "id_switches": 1,
+        "true_counts": {
+          "forward": 17,
+          "backward": 8
+        },
+        "pipeline_counts": {
+          "forward": 11,
+          "backward": 2
+        },
+        "count_error": 12
+      },
+      {
+        "seed": 1,
+        "mota": 0.3761904761904762,
+        "idf1": 0.5107684126562084,
+        "id_switches": 2,
+        "true_counts": {
+          "forward": 14,
+          "backward": 17
+        },
+        "pipeline_counts": {
+          "forward": 9,
+          "backward": 7
+        },
+        "count_error": 15
+      },
+      {
+        "seed": 2,
+        "mota": 0.3549107142857143,
+        "idf1": 0.523568170299037,
+        "id_switches": 1,
+        "true_counts": {
+          "forward": 19,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 5,
+          "backward": 9
+        },
+        "count_error": 20
+      },
+      {
+        "seed": 3,
+        "mota": 0.35124047665559677,
+        "idf1": 0.5146739916148619,
+        "id_switches": 0,
+        "true_counts": {
+          "forward": 14,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 7,
+          "backward": 6
+        },
+        "count_error": 16
+      },
+      {
+        "seed": 4,
+        "mota": 0.42245644224564427,
+        "idf1": 0.5852109481324663,
+        "id_switches": 0,
+        "true_counts": {
+          "forward": 13,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 8,
+          "backward": 8
+        },
+        "count_error": 12
+      }
+    ]
+  },
+  "calibrated_thresholds": {
+    "true_crossings": 147,
+    "pipeline_crossings": 132,
+    "count_absolute_error": 15,
+    "count_error_percent": 10.204081632653061,
+    "mota_mean": 0.7087438544769398,
+    "idf1_mean": 0.8337764467243263,
+    "id_switches_mean": 9.8,
+    "runs": [
+      {
+        "seed": 0,
+        "mota": 0.6112123974475843,
+        "idf1": 0.7890772128060264,
+        "id_switches": 8,
+        "true_counts": {
+          "forward": 17,
+          "backward": 8
+        },
+        "pipeline_counts": {
+          "forward": 13,
+          "backward": 7
+        },
+        "count_error": 5
+      },
+      {
+        "seed": 1,
+        "mota": 0.7501831501831502,
+        "idf1": 0.8381108381108381,
+        "id_switches": 19,
+        "true_counts": {
+          "forward": 14,
+          "backward": 17
+        },
+        "pipeline_counts": {
+          "forward": 13,
+          "backward": 17
+        },
+        "count_error": 1
+      },
+      {
+        "seed": 2,
+        "mota": 0.5436126373626373,
+        "idf1": 0.754526819268876,
+        "id_switches": 6,
+        "true_counts": {
+          "forward": 19,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 13,
+          "backward": 15
+        },
+        "count_error": 6
+      },
+      {
+        "seed": 3,
+        "mota": 0.8226216057823794,
+        "idf1": 0.9014465605161828,
+        "id_switches": 5,
+        "true_counts": {
+          "forward": 14,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 13,
+          "backward": 15
+        },
+        "count_error": 1
+      },
+      {
+        "seed": 4,
+        "mota": 0.8160894816089481,
+        "idf1": 0.885720802919708,
+        "id_switches": 11,
+        "true_counts": {
+          "forward": 13,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 11,
+          "backward": 15
+        },
+        "count_error": 2
+      }
+    ]
+  },
+  "calibrated_without_merge": {
+    "true_crossings": 147,
+    "pipeline_crossings": 473,
+    "count_absolute_error": 326,
+    "count_error_percent": 221.7687074829932,
+    "mota_mean": -1.3919889769696758,
+    "idf1_mean": 0.39026240764387227,
+    "id_switches_mean": 50.8,
+    "runs": [
+      {
+        "seed": 0,
+        "mota": -1.3963081130355515,
+        "idf1": 0.3848906998513298,
+        "id_switches": 38,
+        "true_counts": {
+          "forward": 17,
+          "backward": 8
+        },
+        "pipeline_counts": {
+          "forward": 58,
+          "backward": 21
+        },
+        "count_error": 54
+      },
+      {
+        "seed": 1,
+        "mota": -1.4771062271062272,
+        "idf1": 0.37891762288063024,
+        "id_switches": 71,
+        "true_counts": {
+          "forward": 14,
+          "backward": 17
+        },
+        "pipeline_counts": {
+          "forward": 44,
+          "backward": 67
+        },
+        "count_error": 80
+      },
+      {
+        "seed": 2,
+        "mota": -1.3832417582417582,
+        "idf1": 0.3926920917375718,
+        "id_switches": 41,
+        "true_counts": {
+          "forward": 19,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 45,
+          "backward": 45
+        },
+        "count_error": 56
+      },
+      {
+        "seed": 3,
+        "mota": -1.343426450478609,
+        "idf1": 0.4008008389741634,
+        "id_switches": 52,
+        "true_counts": {
+          "forward": 14,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 48,
+          "backward": 51
+        },
+        "count_error": 70
+      },
+      {
+        "seed": 4,
+        "mota": -1.3598623359862336,
+        "idf1": 0.3940107847756662,
+        "id_switches": 52,
+        "true_counts": {
+          "forward": 13,
+          "backward": 15
+        },
+        "pipeline_counts": {
+          "forward": 47,
+          "backward": 47
+        },
+        "count_error": 66
+      }
+    ]
+  }
+}

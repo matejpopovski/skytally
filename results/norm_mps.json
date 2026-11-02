@@ -1,0 +1,27 @@
+{
+  "hardware": "Apple M3 Max, 36 GB",
+  "torch": "2.8.0",
+  "feature_map": [
+    10,
+    96,
+    160,
+    160
+  ],
+  "rows": [
+    {
+      "norm": "groupnorm",
+      "step_ms_median": 101.86049999902025,
+      "driver_gb": 2.175664128
+    },
+    {
+      "norm": "batchnorm",
+      "step_ms_median": 57.02304100123001,
+      "driver_gb": 2.27426304
+    },
+    {
+      "norm": "none",
+      "step_ms_median": 39.39887500018813,
+      "driver_gb": 2.27426304
+    }
+  ]
+}

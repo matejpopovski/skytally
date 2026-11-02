@@ -1,0 +1,191 @@
+{
+  "label": "simulator measurement",
+  "seeds": 10,
+  "seconds_per_run": 60.0,
+  "fps": 10.0,
+  "detector_model": {
+    "high_score": 0.45,
+    "low_score": 0.3,
+    "high_recall": 0.75,
+    "any_recall": 0.9,
+    "hard_state_entry": 0.04,
+    "hard_state_exit": 0.25,
+    "hard_recall_factor": 0.35,
+    "center_noise_px": 1.2,
+    "size_noise": 0.1,
+    "false_positives_per_frame": 1.0,
+    "persistent_false_positives_per_frame": 1.0,
+    "site_fire_rate": 0.5,
+    "wrong_label_rate": 0.08
+  },
+  "results": {
+    "nominal": {
+      "iou_only": {
+        "mota": 0.42090898464378596,
+        "idf1": 0.25444712032764144,
+        "id_switches_per_run": 243.6,
+        "true_crossings": 232,
+        "count_absolute_error": 95,
+        "count_error_percent": 40.94827586206897
+      },
+      "kalman": {
+        "mota": 0.5721999965261316,
+        "idf1": 0.7733168460604224,
+        "id_switches_per_run": 1.7,
+        "true_crossings": 232,
+        "count_absolute_error": 1,
+        "count_error_percent": 0.43103448275862066
+      },
+      "kalman_low_scores": {
+        "mota": 0.7095665208840186,
+        "idf1": 0.8562052432967671,
+        "id_switches_per_run": 0.7,
+        "true_crossings": 232,
+        "count_absolute_error": 1,
+        "count_error_percent": 0.43103448275862066
+      },
+      "plus_buffer": {
+        "mota": 0.709790835088,
+        "idf1": 0.8578511990653599,
+        "id_switches_per_run": 0.2,
+        "true_crossings": 232,
+        "count_absolute_error": 1,
+        "count_error_percent": 0.43103448275862066
+      },
+      "plus_lost_search": {
+        "mota": 0.709790835088,
+        "idf1": 0.8578511990653599,
+        "id_switches_per_run": 0.2,
+        "true_crossings": 232,
+        "count_absolute_error": 1,
+        "count_error_percent": 0.43103448275862066
+      }
+    },
+    "fast_traffic": {
+      "iou_only": {
+        "mota": -0.014828381196439866,
+        "idf1": 0.12448254812053786,
+        "id_switches_per_run": 296.1,
+        "true_crossings": 253,
+        "count_absolute_error": 197,
+        "count_error_percent": 77.86561264822134
+      },
+      "kalman": {
+        "mota": 0.40526968217155546,
+        "idf1": 0.6981713965372376,
+        "id_switches_per_run": 4.5,
+        "true_crossings": 253,
+        "count_absolute_error": 6,
+        "count_error_percent": 2.3715415019762847
+      },
+      "kalman_low_scores": {
+        "mota": 0.5468627487327946,
+        "idf1": 0.7854358303724146,
+        "id_switches_per_run": 1.5,
+        "true_crossings": 253,
+        "count_absolute_error": 3,
+        "count_error_percent": 1.1857707509881423
+      },
+      "plus_buffer": {
+        "mota": 0.5709177319760248,
+        "idf1": 0.7992290731288899,
+        "id_switches_per_run": 0.7,
+        "true_crossings": 253,
+        "count_absolute_error": 0,
+        "count_error_percent": 0.0
+      },
+      "plus_lost_search": {
+        "mota": 0.5712860959850625,
+        "idf1": 0.7991638707145693,
+        "id_switches_per_run": 0.6,
+        "true_crossings": 253,
+        "count_absolute_error": 0,
+        "count_error_percent": 0.0
+      }
+    },
+    "dense": {
+      "iou_only": {
+        "mota": 0.5256760769861019,
+        "idf1": 0.2562023540642611,
+        "id_switches_per_run": 579.4,
+        "true_crossings": 518,
+        "count_absolute_error": 206,
+        "count_error_percent": 39.76833976833977
+      },
+      "kalman": {
+        "mota": 0.6721571913709126,
+        "idf1": 0.8176367647576636,
+        "id_switches_per_run": 2.7,
+        "true_crossings": 518,
+        "count_absolute_error": 5,
+        "count_error_percent": 0.9652509652509652
+      },
+      "kalman_low_scores": {
+        "mota": 0.8087805121246624,
+        "idf1": 0.9005098926659092,
+        "id_switches_per_run": 2.4,
+        "true_crossings": 518,
+        "count_absolute_error": 4,
+        "count_error_percent": 0.7722007722007722
+      },
+      "plus_buffer": {
+        "mota": 0.8090130626191352,
+        "idf1": 0.9001472779430963,
+        "id_switches_per_run": 1.9,
+        "true_crossings": 518,
+        "count_absolute_error": 4,
+        "count_error_percent": 0.7722007722007722
+      },
+      "plus_lost_search": {
+        "mota": 0.8093020340670337,
+        "idf1": 0.8827481987491932,
+        "id_switches_per_run": 1.9,
+        "true_crossings": 518,
+        "count_absolute_error": 4,
+        "count_error_percent": 0.7722007722007722
+      }
+    },
+    "occluded_line": {
+      "iou_only": {
+        "mota": 0.40312627290948383,
+        "idf1": 0.23874749602938958,
+        "id_switches_per_run": 240.2,
+        "true_crossings": 232,
+        "count_absolute_error": 232,
+        "count_error_percent": 100.0
+      },
+      "kalman": {
+        "mota": 0.5641148275636443,
+        "idf1": 0.7578084445865086,
+        "id_switches_per_run": 2.3,
+        "true_crossings": 232,
+        "count_absolute_error": 16,
+        "count_error_percent": 6.896551724137931
+      },
+      "kalman_low_scores": {
+        "mota": 0.6999121704672375,
+        "idf1": 0.8411975213615698,
+        "id_switches_per_run": 1.8,
+        "true_crossings": 232,
+        "count_absolute_error": 13,
+        "count_error_percent": 5.603448275862069
+      },
+      "plus_buffer": {
+        "mota": 0.7006872359575578,
+        "idf1": 0.8492892227207134,
+        "id_switches_per_run": 1.2,
+        "true_crossings": 232,
+        "count_absolute_error": 8,
+        "count_error_percent": 3.4482758620689653
+      },
+      "plus_lost_search": {
+        "mota": 0.7013732486293064,
+        "idf1": 0.8397904545596545,
+        "id_switches_per_run": 0.9,
+        "true_crossings": 232,
+        "count_absolute_error": 7,
+        "count_error_percent": 3.0172413793103448
+      }
+    }
+  }
+}

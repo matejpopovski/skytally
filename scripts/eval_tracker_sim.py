@@ -23,10 +23,11 @@ from skytally.track.counter import LineCounter
 from skytally.track.metrics import FrameBoxes, evaluate_tracking
 
 VARIANTS = {
-    "iou_only": TrackerConfig(use_kalman=False, use_low_scores=False, buffer=0.0),
-    "kalman": TrackerConfig(use_low_scores=False, buffer=0.0),
-    "kalman_low_scores": TrackerConfig(buffer=0.0),
-    "kalman_low_scores_buffer": TrackerConfig(),
+    "iou_only": TrackerConfig(use_kalman=False, use_low_scores=False, buffer=0.0, lost_buffer=0.0),
+    "kalman": TrackerConfig(use_low_scores=False, buffer=0.0, lost_buffer=0.0),
+    "kalman_low_scores": TrackerConfig(buffer=0.0, lost_buffer=0.0),
+    "plus_buffer": TrackerConfig(lost_buffer=0.0),
+    "plus_lost_search": TrackerConfig(),
 }
 SCENARIOS = {
     "nominal": SceneConfig(),
@@ -79,6 +80,7 @@ def run(sequence, detections, config: TrackerConfig) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seeds", type=int, default=10)
+    parser.add_argument("--first-seed", type=int, default=100)
     parser.add_argument("--operating-point", type=Path)
     parser.add_argument("--output", type=Path, default=Path("results/tracker_sim.json"))
     args = parser.parse_args()
@@ -86,16 +88,20 @@ def main() -> None:
     model = DetectorModel()
     if args.operating_point:
         rates = json.loads(args.operating_point.read_text())
+        megapixels = SceneConfig().width * SceneConfig().height / 1e6
         model = replace(
             model,
             high_recall=rates["recall_at_high_score"],
             any_recall=rates["recall_at_low_score"],
+            false_positives_per_frame=rates["clutter_per_megapixel_low_band"] * megapixels,
+            persistent_false_positives_per_frame=rates["clutter_per_megapixel_above_high"]
+            * megapixels,
         )
 
     table: dict[str, dict] = {}
     for scenario, base in SCENARIOS.items():
         collected: dict[str, list[dict]] = {name: [] for name in VARIANTS}
-        for seed in range(args.seeds):
+        for seed in range(args.first_seed, args.first_seed + args.seeds):
             sequence = simulate(replace(base, seed=seed))
             detections = corrupt(sequence, model, seed=seed + 1000)
             for name, config in VARIANTS.items():

@@ -55,6 +55,10 @@ class BoxFilter:
         # A shrinking box can extrapolate through zero during a long coast.
         self.mean[2:4] = np.maximum(self.mean[2:4], 1.0)
 
+    def hold_size(self) -> None:
+        """Stop extrapolating box size. An unseen object has no evidence of changing size."""
+        self.mean[6:8] = 0.0
+
     def update(self, cxcywh: np.ndarray) -> None:
         size = float(self.mean[2:4].max())
         noise = np.eye(MEASURE) * self._position_std(size) ** 2

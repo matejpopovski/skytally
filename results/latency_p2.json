@@ -1,0 +1,59 @@
+{
+  "device": "mps",
+  "hardware": "Apple M3 Max, 36 GB",
+  "images": 60,
+  "load_average_1min": 6.68603515625,
+  "model": "p2",
+  "rows": [
+    {
+      "long_side": 960,
+      "input": [
+        544,
+        960
+      ],
+      "network_ms_median": 19.004957997822203,
+      "network_ms_p95": 24.628665996715426,
+      "postprocess_ms_median": 76.67100000253413
+    },
+    {
+      "long_side": 1280,
+      "input": [
+        736,
+        1280
+      ],
+      "network_ms_median": 25.58287500141887,
+      "network_ms_p95": 27.68025000113994,
+      "postprocess_ms_median": 63.46041699725902
+    },
+    {
+      "long_side": 1536,
+      "input": [
+        864,
+        1536
+      ],
+      "network_ms_median": 33.070500001485925,
+      "network_ms_p95": 35.63179100456182,
+      "postprocess_ms_median": 52.505250001559034
+    },
+    {
+      "long_side": 1920,
+      "input": [
+        1088,
+        1920
+      ],
+      "network_ms_median": 47.43712500203401,
+      "network_ms_p95": 51.90574999869568,
+      "postprocess_ms_median": 42.57104199496098
+    },
+    {
+      "long_side": 2400,
+      "input": [
+        1376,
+        2400
+      ],
+      "network_ms_median": 71.10216699948069,
+      "network_ms_p95": 72.08299999911105,
+      "postprocess_ms_median": 34.98958300042432
+    }
+  ]
+}

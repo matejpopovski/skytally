@@ -1,0 +1,13 @@
+{
+  "images": 548,
+  "detections": 274000,
+  "ap_ours": 0.14412520687875682,
+  "ap_pycocotools": 0.14412520687875682,
+  "ap50_ours": 0.3013959509243481,
+  "ap50_pycocotools": 0.3013959509243481,
+  "max_abs_difference_precision": 0.0,
+  "max_abs_difference_recall": 0.0,
+  "tensor_entries_compared": 204000,
+  "seconds_ours": 10.678096541996638,
+  "seconds_pycocotools": 36.0688229160005
+}

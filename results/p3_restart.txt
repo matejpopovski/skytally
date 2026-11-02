@@ -1,0 +1,4 @@
+Deliberate SIGKILL of the stride-8 trainer, sent just after a checkpoint, on MPS.
+Killed 06:12:27, resumed 06:12:56 local time. Lines from runs/p3.log:
+training exited with -9 after 1232 s, restart 1/5
+resumed at step 5619

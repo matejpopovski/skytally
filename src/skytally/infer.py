@@ -22,7 +22,7 @@ class InferConfig:
     long_side: int = 1536
     score_threshold: float = 0.01
     topk_per_level: int = 4000
-    nms_iou: float = 0.6
+    nms_iou: float = 0.5
     max_dets: int = 500
 
 

@@ -38,7 +38,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--data-dir", type=Path, default=Path("data/visdrone"))
-    parser.add_argument("--sizes", type=int, nargs="+", default=[960, 1280, 1536, 1920])
+    parser.add_argument("--sizes", type=int, nargs="+", default=[960, 1280, 1536, 1920, 2400])
     parser.add_argument("--images", type=int, default=60)
     parser.add_argument("--output", type=Path, default=Path("results/latency.json"))
     args = parser.parse_args()

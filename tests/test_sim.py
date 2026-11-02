@@ -53,10 +53,40 @@ def test_occluder_hides_vehicles_in_its_band():
     states = [s for frame in sequence.frames for s in frame]
     assert any(not s.visible for s in states)
     assert any(s.visible for s in states)
-    detections = corrupt(sequence, DetectorModel(false_positives_per_frame=0.0), seed=0)
+    model = DetectorModel(false_positives_per_frame=0.0, persistent_false_positives_per_frame=0.0)
+    detections = corrupt(sequence, model, seed=0)
     for frame, det in zip(sequence.frames, detections, strict=True):
         visible = [s for s in frame if s.visible]
         assert len(det) <= len(visible)
+
+
+def test_noise_model_reproduces_requested_marginal_recall():
+    sequence = simulate(short_config(seconds=120.0, arrivals_per_minute=60.0))
+    model = DetectorModel(
+        high_recall=0.7,
+        any_recall=0.85,
+        center_noise_px=0.0,
+        false_positives_per_frame=0.0,
+        persistent_false_positives_per_frame=0.0,
+    )
+    detections = corrupt(sequence, model, seed=0)
+    objects = sum(len(frame) for frame in sequence.frames)
+    high = sum(int((d.scores >= model.high_score).sum()) for d in detections)
+    assert high / objects == pytest.approx(0.7, abs=0.04)
+    assert sum(len(d) for d in detections) / objects == pytest.approx(0.85, abs=0.04)
+
+
+def test_persistent_clutter_repeats_at_the_same_place():
+    sequence = simulate(short_config(seconds=20.0, arrivals_per_minute=0.0))
+    model = DetectorModel(
+        false_positives_per_frame=0.0,
+        persistent_false_positives_per_frame=2.0,
+        center_noise_px=0.1,
+    )
+    detections = corrupt(sequence, model, seed=0)
+    boxes = np.concatenate([d.boxes for d in detections])
+    assert len(np.unique(boxes[:, :2].round(-1), axis=0)) <= 8
+    assert len(boxes) > 100
 
 
 def test_counter_recovers_true_count_from_clean_detections():
@@ -69,6 +99,7 @@ def test_counter_recovers_true_count_from_clean_detections():
         center_noise_px=0.0,
         size_noise=0.0,
         false_positives_per_frame=0.0,
+        persistent_false_positives_per_frame=0.0,
         wrong_label_rate=0.0,
     )
     tracker = ByteTracker()

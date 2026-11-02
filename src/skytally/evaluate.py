@@ -80,7 +80,7 @@ def main() -> None:
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--data-dir", type=Path, default=Path("data/visdrone"))
     parser.add_argument("--long-side", type=int, default=1536)
-    parser.add_argument("--nms-iou", type=float, default=0.6)
+    parser.add_argument("--nms-iou", type=float, default=0.5)
     parser.add_argument("--candidates", type=Path, help="pickle cache of pre-NMS output")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()

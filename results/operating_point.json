@@ -1,0 +1,109 @@
+{
+  "classes": [
+    "car",
+    "van",
+    "truck",
+    "bus"
+  ],
+  "match_iou": 0.3,
+  "objects": 17040,
+  "high_score": 0.45,
+  "low_score": 0.3,
+  "recall_at_high_score": 0.8650234741784038,
+  "recall_at_low_score": 0.964612676056338,
+  "clutter_per_megapixel_above_high": 6.46401118099237,
+  "clutter_per_megapixel_low_band": 52.454577218728616,
+  "curve": [
+    {
+      "score": 0.1,
+      "recall": 0.9675469483568075,
+      "precision": 0.5245772364847104,
+      "f1": 0.6803094668586681,
+      "false_positives_per_megapixel": 92.73311457478889
+    },
+    {
+      "score": 0.2,
+      "recall": 0.9675469483568075,
+      "precision": 0.5360133668170767,
+      "f1": 0.6898533994392415,
+      "false_positives_per_megapixel": 88.06360708534699
+    },
+    {
+      "score": 0.3,
+      "recall": 0.964612676056338,
+      "precision": 0.6121285612491093,
+      "f1": 0.7489713030732813,
+      "false_positives_per_megapixel": 58.91858839972099
+    },
+    {
+      "score": 0.35,
+      "recall": 0.950293427230047,
+      "precision": 0.695593147675104,
+      "f1": 0.8032359050015386,
+      "false_positives_per_megapixel": 32.35993376477408
+    },
+    {
+      "score": 0.4,
+      "recall": 0.9183098591549296,
+      "precision": 0.7831059781850643,
+      "f1": 0.8453358958440274,
+      "false_positives_per_megapixel": 14.764302859052783
+    },
+    {
+      "score": 0.45,
+      "recall": 0.8650234741784038,
+      "precision": 0.8554748864263576,
+      "f1": 0.8602226834657238,
+      "false_positives_per_megapixel": 6.46401118099237
+    },
+    {
+      "score": 0.5,
+      "recall": 0.7860328638497652,
+      "precision": 0.9090140164330595,
+      "f1": 0.8430620992585596,
+      "false_positives_per_megapixel": 2.8598122322486805
+    },
+    {
+      "score": 0.55,
+      "recall": 0.6749413145539906,
+      "precision": 0.9465020576131687,
+      "f1": 0.7879810716295924,
+      "false_positives_per_megapixel": 1.2590010026433434
+    },
+    {
+      "score": 0.6,
+      "recall": 0.5399647887323944,
+      "precision": 0.9720670391061452,
+      "f1": 0.6942737100382291,
+      "false_positives_per_megapixel": 0.4937258833895464
+    },
+    {
+      "score": 0.65,
+      "recall": 0.39735915492957746,
+      "precision": 0.984681737061273,
+      "f1": 0.5662239159213622,
+      "false_positives_per_megapixel": 0.19559140765047417
+    },
+    {
+      "score": 0.7,
+      "recall": 0.24553990610328638,
+      "precision": 0.9923058427506612,
+      "f1": 0.39366889401255756,
+      "false_positives_per_megapixel": 0.0607662625710211
+    },
+    {
+      "score": 0.75,
+      "recall": 0.1181338028169014,
+      "precision": 0.9980089596814335,
+      "f1": 0.21126077705079105,
+      "false_positives_per_megapixel": 0.0075957828213776375
+    },
+    {
+      "score": 0.8,
+      "recall": 0.025762910798122065,
+      "precision": 0.9977220956719818,
+      "f1": 0.05022882639143674,
+      "false_positives_per_megapixel": 0.0018989457053444094
+    }
+  ]
+}

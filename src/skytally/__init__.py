@@ -13,3 +13,5 @@ CLASS_NAMES = (
     "motor",
 )
 NUM_CLASSES = len(CLASS_NAMES)
+# Classes a road traffic counter cares about. Matches results/operating_point.json.
+VEHICLE_CLASSES = tuple(CLASS_NAMES.index(n) for n in ("car", "van", "truck", "bus"))

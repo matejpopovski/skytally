@@ -6,7 +6,11 @@ existing track. Three settings exist for tiny objects:
 
 * ``buffer`` grows boxes for matching only, following the buffered IoU of C-BIoU (Yang
   et al., 2023). A 12-pixel car moving 12 pixels per frame has no overlap with its own
-  previous box, so plain IoU cannot link it once the velocity estimate lags.
+  previous box, so plain IoU cannot link it once the velocity estimate lags. Too much
+  buffer reaches into the neighbouring lane, so the setting is measured, not assumed.
+* ``lost_buffer`` widens the search for a track per frame it has gone unseen, because
+  its predicted position gets less certain the longer it coasts. Healthy tracks are not
+  affected, so occlusion recovery does not cost lane discipline.
 * Kalman noise has a pixel floor, see ``skytally.track.kalman``.
 * ``use_kalman=False`` and ``use_low_scores=False`` exist for the ablation.
 """
@@ -24,14 +28,17 @@ from skytally.track.kalman import BoxFilter, KalmanConfig
 
 @dataclass(frozen=True)
 class TrackerConfig:
-    high_score: float = 0.35
-    low_score: float = 0.1
-    new_track_score: float = 0.4
+    # Read off the detector's vehicle curve (results/operating_point.json): best F1 at 0.45,
+    # 0.91 precision at 0.5, and no recall left to gain below 0.3.
+    high_score: float = 0.45
+    low_score: float = 0.3
+    new_track_score: float = 0.5
     match_iou: float = 0.15
     low_match_iou: float = 0.25
-    max_lost: int = 15
+    max_lost: int = 20
     min_hits: int = 2
-    buffer: float = 0.5
+    buffer: float = 0.25
+    lost_buffer: float = 0.1
     use_kalman: bool = True
     use_low_scores: bool = True
     kalman: KalmanConfig = field(default_factory=KalmanConfig)
@@ -67,10 +74,11 @@ class Track:
     lost: int = 0
     last_box: np.ndarray | None = None
     label_votes: dict[int, float] = field(default_factory=dict)
+    use_filter: bool = True
 
     @property
     def box(self) -> np.ndarray:
-        return self.filter.box
+        return self.filter.box if self.use_filter else self.last_box
 
     @property
     def center(self) -> np.ndarray:
@@ -89,21 +97,38 @@ def _to_cxcywh(box: np.ndarray) -> np.ndarray:
     )
 
 
-def expand(boxes: np.ndarray, buffer: float) -> np.ndarray:
+def expand(boxes: np.ndarray, buffer: float | np.ndarray) -> np.ndarray:
     """Grow each box by ``buffer`` times its width and height on every side."""
     boxes = np.asarray(boxes, dtype=np.float64).reshape(-1, 4)
     wh = boxes[:, 2:] - boxes[:, :2]
-    return np.concatenate([boxes[:, :2] - buffer * wh, boxes[:, 2:] + buffer * wh], axis=1)
+    grow = np.asarray(buffer, dtype=np.float64).reshape(-1, 1) * wh
+    return np.concatenate([boxes[:, :2] - grow, boxes[:, 2:] + grow], axis=1)
+
+
+def buffered_iou(track_boxes: np.ndarray, det_boxes: np.ndarray, buffers: np.ndarray) -> np.ndarray:
+    """IoU after growing a track and its candidate detections by that track's buffer.
+
+    Both sides must grow together: a large box around a small one has a low IoU even when
+    it contains it, so growing only the track would reject the match it was meant to find.
+    """
+    iou = np.zeros((len(track_boxes), len(det_boxes)))
+    for buffer in np.unique(buffers):
+        rows = buffers == buffer
+        iou[rows] = pairwise_iou(expand(track_boxes[rows], buffer), expand(det_boxes, buffer))
+    return iou
 
 
 def match(
-    track_boxes: np.ndarray, det_boxes: np.ndarray, min_iou: float, buffer: float
+    track_boxes: np.ndarray,
+    det_boxes: np.ndarray,
+    min_iou: float,
+    buffers: float | np.ndarray,
 ) -> tuple[list[tuple[int, int]], list[int], list[int]]:
-    """Optimal assignment on (buffered) IoU. Returns matches, free tracks, free detections."""
+    """Optimal assignment on buffered IoU. Returns matches, free tracks, free detections."""
     num_tracks, num_dets = len(track_boxes), len(det_boxes)
     if num_tracks == 0 or num_dets == 0:
         return [], list(range(num_tracks)), list(range(num_dets))
-    iou = pairwise_iou(expand(track_boxes, buffer), expand(det_boxes, buffer))
+    iou = buffered_iou(track_boxes, det_boxes, np.broadcast_to(buffers, (num_tracks,)))
     rows, cols = linear_sum_assignment(-iou)
     pairs = [(r, c) for r, c in zip(rows, cols, strict=True) if iou[r, c] >= min_iou]
     matched_tracks = {r for r, _ in pairs}
@@ -158,6 +183,7 @@ class ByteTracker:
 
         for track in remaining:
             track.lost += 1
+            track.filter.hold_size()
         dropped = {id(tentative[t]) for t in free_tentative}
         self.tracks = [t for t in self.tracks if id(t) not in dropped and t.lost <= config.max_lost]
 
@@ -169,14 +195,17 @@ class ByteTracker:
 
     def _associate(self, tracks: list[Track], detections: Detection, min_iou: float):
         boxes = np.array([self._reference_box(t) for t in tracks]).reshape(-1, 4)
-        return match(boxes, detections.boxes, min_iou, self.config.buffer)
+        config = self.config
+        lost = np.array([t.lost for t in tracks], dtype=np.float64)
+        return match(boxes, detections.boxes, min_iou, config.buffer + config.lost_buffer * lost)
 
     def _reference_box(self, track: Track) -> np.ndarray:
         return track.box if self.config.use_kalman else track.last_box
 
     def _apply(self, track: Track, detections: Detection, index: int) -> None:
         box = detections.boxes[index]
-        track.filter.update(_to_cxcywh(box))
+        if self.config.use_kalman:
+            track.filter.update(_to_cxcywh(box))
         track.last_box = box
         track.score = float(detections.scores[index])
         track.label = int(detections.labels[index])
@@ -196,6 +225,7 @@ class ByteTracker:
                 score,
                 last_box=box,
                 label_votes={label: score},
+                use_filter=self.config.use_kalman,
             )
         )
         self._next_id += 1

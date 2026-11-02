@@ -78,7 +78,7 @@ def test_low_score_detection_rescues_a_track():
     tracker = ByteTracker(TrackerConfig(max_lost=0))
     for t in range(5):
         tracker.update(frame((box_at(10 + 2 * t, 50), 0.8)))
-    survivors = tracker.update(frame((box_at(20, 50), 0.2)))
+    survivors = tracker.update(frame((box_at(20, 50), 0.35)))
     assert [t.track_id for t in survivors] == [1]
 
 
@@ -86,13 +86,35 @@ def test_low_score_detection_is_ignored_when_the_second_pass_is_off():
     tracker = ByteTracker(TrackerConfig(max_lost=0, use_low_scores=False))
     for t in range(5):
         tracker.update(frame((box_at(10 + 2 * t, 50), 0.8)))
-    assert tracker.update(frame((box_at(20, 50), 0.2))) == []
+    assert tracker.update(frame((box_at(20, 50), 0.35))) == []
+
+
+def test_lost_buffer_widens_search_only_for_unseen_tracks():
+    far = frame((box_at(40, 50), 0.8))
+
+    def run(lost_buffer):
+        tracker = ByteTracker(TrackerConfig(buffer=0.1, lost_buffer=lost_buffer, max_lost=20))
+        for _ in range(3):
+            tracker.update(frame((box_at(10, 50), 0.8)))
+        for _ in range(6):
+            tracker.update(Detection(np.empty((0, 4)), [], []))
+        return [t.track_id for t in tracker.update(far)]
+
+    assert run(0.0) == []
+    assert run(1.0) == [1]
+
+
+def test_without_kalman_reported_boxes_are_the_last_detection():
+    tracker = ByteTracker(TrackerConfig(use_kalman=False, buffer=0.0, use_low_scores=False))
+    tracker.update(frame((box_at(10, 50), 0.8)))
+    tracks = tracker.update(frame((box_at(12, 50), 0.8)))
+    assert tracks[0].box.tolist() == box_at(12, 50)
 
 
 def test_low_score_detection_never_starts_a_track():
     tracker = ByteTracker()
     for _ in range(5):
-        assert tracker.update(frame((box_at(30, 30), 0.2))) == []
+        assert tracker.update(frame((box_at(30, 30), 0.35))) == []
     assert tracker.tracks == []
 
 
