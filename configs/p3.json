@@ -1,0 +1,8 @@
+{
+  "name": "p3",
+  "model": {"min_level": 3},
+  "total_steps": 7500,
+  "warmup_steps": 300,
+  "eval_every_steps": 1500,
+  "max_wall_minutes": 88
+}

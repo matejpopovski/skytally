@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+
+# VisDrone is never committed: no clear redistribution licence.
+data/
+
+# Checkpoints and per-run logs are large and derived from VisDrone.
+runs/

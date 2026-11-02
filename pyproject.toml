@@ -1,0 +1,54 @@
+[project]
+name = "skytally"
+version = "0.1.0"
+description = "Tiny-object detector and tracker for counting traffic from drone footage"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=2.0,<3",
+    "pillow>=10.4",
+    "psutil>=6.0",
+    "scipy>=1.14",
+    "torch>=2.5,<2.9",
+    "torchvision>=0.20,<0.24",
+]
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.9"]
+
+[dependency-groups]
+dev = [
+    "pycocotools>=2.0.8",
+    "pytest>=8.3",
+    "ruff>=0.7",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/skytally"]
+
+# PyPI's Linux torch wheels pull in CUDA libraries. CI only needs CPU, so Linux
+# resolves against the CPU index; macOS keeps the PyPI wheel, which includes MPS.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
