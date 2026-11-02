@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Regenerate results/ and docs/ from trained checkpoints. Expects runs/p2 and runs/p3 from
 #   python -m skytally.supervise --config configs/p2.json   (and configs/p3.json)
-# and data/visdrone from scripts/download_visdrone.py. Takes about 15 minutes on an M3 Max.
+# and data/visdrone from scripts/download_visdrone.py. Takes about 30 minutes on an M3 Max.
 set -euo pipefail
 
 python scripts/dataset_stats.py > /dev/null

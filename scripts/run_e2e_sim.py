@@ -8,7 +8,8 @@ can be published.
 The same detections go through three variants: VisDrone thresholds, thresholds chosen on
 separate labelled rendered clips, and those chosen thresholds without the cross-class merge.
 Thresholds are picked by IDF1 rather than count error, because over- and under-counting
-can cancel. The evaluation clips are never used to choose anything.
+can cancel. No threshold is chosen on the evaluation clips, although the need for the merge
+step was first noticed on them, so they are not fully untouched.
 """
 
 from __future__ import annotations
@@ -100,6 +101,19 @@ def recall_by_lane(clips: list[tuple], score: float) -> dict:
                 if len(boxes) and pairwise_iou(state.box[None], boxes).max() >= 0.3:
                     found[key] = found.get(key, 0) + 1
     return {key: found.get(key, 0) / total[key] for key in sorted(total)}
+
+
+def boxes_per_vehicle(clips: list[tuple], score: float) -> float:
+    """Mean detections touching a visible vehicle, measured before any cross-class merge."""
+    counts = []
+    for sequence, detections in clips:
+        for states, detection in zip(sequence.frames, detections, strict=True):
+            visible = [s for s in states if s.visible]
+            boxes = detection.boxes[detection.scores >= score]
+            if visible and len(boxes):
+                iou = pairwise_iou(np.array([s.box for s in visible]), boxes)
+                counts.extend((iou >= 0.3).sum(axis=1).tolist())
+    return float(np.mean(counts))
 
 
 def track_clip(sequence, detections, settings: TrackerConfig) -> dict:
@@ -227,9 +241,10 @@ def main() -> None:
     def merged(detections: list) -> list:
         return [merge_classes(d) for d in detections]
 
-    calibration_clips = []
+    calibration_clips, unmerged_clips = [], []
     for seed in CALIBRATION_SEEDS:
         sequence, detections, _ = clip(seed)
+        unmerged_clips.append((sequence, detections))
         calibration_clips.append((sequence, merged(detections)))
     calibrated = calibrate(calibration_clips)
     evaluation = [clip(seed) for seed in EVALUATION_SEEDS]
@@ -241,6 +256,12 @@ def main() -> None:
         "calibration_seeds": list(CALIBRATION_SEEDS),
         "evaluation_seeds": list(EVALUATION_SEEDS),
         "calibration": calibrated,
+        "boxes_per_vehicle_before_merge": boxes_per_vehicle(
+            unmerged_clips, domain_settings.high_score
+        ),
+        "boxes_per_vehicle_after_merge": boxes_per_vehicle(
+            calibration_clips, domain_settings.high_score
+        ),
         "recall_by_lane_on_calibration_clips": recall_by_lane(
             calibration_clips, domain_settings.high_score
         ),

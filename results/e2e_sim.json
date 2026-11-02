@@ -146,6 +146,8 @@
       }
     ]
   },
+  "boxes_per_vehicle_before_merge": 1.590315142198309,
+  "boxes_per_vehicle_after_merge": 0.6750362968656589,
   "recall_by_lane_on_calibration_clips": {
     "leftward_inner": 0.7315945856718389,
     "leftward_outer": 0.6610594130279169,

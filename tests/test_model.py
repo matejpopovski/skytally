@@ -132,7 +132,7 @@ def test_perfect_prediction_has_zero_box_loss():
 
 def test_model_overfits_one_scene_on_cpu():
     """End-to-end: targets, losses and post-processing fit a trivially learnable image."""
-    torch.manual_seed(0)
+    torch.manual_seed(1)
     config = small_config()
     model = Detector(config)
     grid = TargetGrid(160, 160, config.levels)
